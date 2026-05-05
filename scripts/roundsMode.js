@@ -225,6 +225,11 @@ writeRoundToTable(thisRound,rowIndex);
  * @returns -- true if user confirms delete, false otherwise
  *************************************************************************/
 function confirmDelete(roundId) {
+  // Validate roundID
+  if (roundId === null || roundId === undefined) {
+    return false;
+  }
+ 
   //TO DO: Present modal dialog prompting user to confirm delete
   //Return true if user confirms delete, false otherwise
   let modal = new bootstrap.Modal(
@@ -252,8 +257,10 @@ function confirmDelete(roundId) {
           (GlobalRoundsTable.rows.length - 1) +
           " speedgolf rounds";
       modal.hide();
+   return true;
   });
   modal.show();
+ return false;
 }
 
 /*************************************************************************
