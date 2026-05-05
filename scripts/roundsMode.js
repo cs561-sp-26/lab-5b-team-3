@@ -227,6 +227,51 @@ function deleteRound(roundId) {
     return round.roundNum !== roundId;
   });
 }
+  /*************************************************************************
+ * @function confirmDelete
+ * @desc
+ * Present pop-up modal dialog asking user to confirm delete operation
+ * @param roundId -- the unique id of the round to be deleted
+ * @returns -- true if user confirms delete, false otherwise
+ *************************************************************************/
+function confirmDelete(roundId) {
+  // Validate roundID
+  if (roundId === null || roundId === undefined) {
+    return false;
+  }
+  
+  //TO DO: Present modal dialog prompting user to confirm delete
+  //Return true if user confirms delete, false otherwise
+  let modal = new bootstrap.Modal(
+      document.getElementById("RoundModal")
+  );
+  let confirmBtn = document.getElementById("confirmDeleteBtn");
+  confirmBtn.addEventListener("click", function (event) {
+      event.preventDefault();
+      console.log("deleting round with id " + roundId);
+      for (var i = 0; i < GlobalRoundsTable.rows.length; i++) {
+          let row = GlobalRoundsTable.rows[i];
+          // Check if the id of the row matches the id you're looking for
+          if (row.id === "r-" + roundId) {
+              GlobalRoundsTable.deleteRow(i);
+              break;
+          }
+      }
+      deleteRound(roundId);
+      localStorage.setItem(
+          GlobalUserData.accountInfo.email,
+          JSON.stringify(GlobalUserData)
+      );
+      GlobalRoundsTableCaption.textContent =
+          "Table displaying " +
+          (GlobalRoundsTable.rows.length - 1) +
+          " speedgolf rounds";
+      modal.hide();
+   return true;
+  });
+  modal.show();
+ return false;
+}
 /*************************************************************************
 * @function populateRoundsTable 
 * @desc 
